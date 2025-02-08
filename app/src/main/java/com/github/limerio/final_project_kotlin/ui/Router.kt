@@ -10,15 +10,22 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.github.limerio.final_project_kotlin.ui.screens.HomeScreen
 import com.github.limerio.final_project_kotlin.viewmodel.PostsViewModel
+import com.github.limerio.final_project_kotlin.viewmodel.UsersViewModel
 
 @SuppressLint("ViewModelConstructorInComposable")
 @Composable
 fun Router(navController: NavHostController, innerPadding: PaddingValues) {
-    NavHost(modifier = Modifier.padding(innerPadding), navController = navController, startDestination = "home") {
-        composable<HomeScreen> {
+    NavHost(
+        modifier = Modifier.padding(innerPadding),
+        navController = navController,
+        startDestination = "home"
+    ) {
+        composable("home") {
             val postsViewModel = PostsViewModel()
+            val usersViewModel = UsersViewModel()
             postsViewModel.load()
-            HomeScreen(navController, postsViewModel)
+            usersViewModel.load()
+            HomeScreen(navController, postsViewModel, usersViewModel)
         }
     }
 }

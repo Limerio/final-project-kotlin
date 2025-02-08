@@ -44,7 +44,6 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:+")
     implementation("androidx.compose.material:material:+")
     implementation("com.squareup.okhttp3:okhttp:+")
-    implementation("com.google.code.gson:gson:+")
     implementation("com.github.bumptech.glide:compose:+")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:+")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")

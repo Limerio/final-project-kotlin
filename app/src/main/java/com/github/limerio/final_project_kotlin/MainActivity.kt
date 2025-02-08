@@ -8,16 +8,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.github.limerio.final_project_kotlin.ui.Router
 import com.github.limerio.final_project_kotlin.ui.components.layout.BottomNavItem
 import com.github.limerio.final_project_kotlin.ui.components.layout.BottomNavigationBar
-import com.github.limerio.final_project_kotlin.ui.screens.HomeScreen
 import com.github.limerio.final_project_kotlin.ui.theme.FinalprojectkotlinTheme
 
 class MainActivity : ComponentActivity() {
@@ -34,17 +31,16 @@ class MainActivity : ComponentActivity() {
                             items = listOf(
                                 BottomNavItem(
                                     name = "Home",
-                                    route = HomeScreen,
-                                    icon = Icons.Default.Home
+                                    route = "home",
+                                    icon = Icons.Outlined.Home,
+                                    active = Icons.Default.Home
                                 ),
                             ),
                             navController = navController,
-                            onItemClick = {
-                                navController.navigate(it.route)
-                            }
                         )
                     },
-                    modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    modifier = Modifier.fillMaxSize()
+                ) { innerPadding ->
                     Router(navController, innerPadding)
                 }
             }

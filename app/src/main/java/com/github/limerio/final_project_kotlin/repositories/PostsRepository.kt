@@ -14,8 +14,8 @@ object PostsRepository {
     }
 
     fun findById(id: Int): Post {
-        val json = Http.get("$POSTS_BASE_URL/$id")
-        return Http.gson.fromJson(json, Post::class.java)
+        val data = Http.get("$POSTS_BASE_URL/$id")
+        return json.decodeFromString(data)
     }
 
     fun delete(id: Int): Int {

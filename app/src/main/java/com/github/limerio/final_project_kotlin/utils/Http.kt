@@ -1,6 +1,5 @@
 package com.github.limerio.final_project_kotlin.utils
 
-import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
@@ -8,7 +7,6 @@ import okhttp3.RequestBody
 
 object Http {
     private val client = OkHttpClient()
-    val gson = Gson()
 
     fun get(url: String): String {
         val request = Request.Builder().url(url).build()

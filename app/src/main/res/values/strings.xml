@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">final-project-kotlin</string>
+    <string name="app_name" translatable="false">final-project-kotlin</string>
     <string name="home">Home</string>
+    <string name="create_a_post_floatting_button_description">Create a post</string>
 </resources>

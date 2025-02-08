@@ -17,8 +17,19 @@ class PostsViewModel : ViewModel() {
         isLoading.value = true
         viewModelScope.launch(Dispatchers.IO){
             val newValues = PostsRepository.findAll()
-            dataList.value = newValues
+            dataList.value = newValues.shuffled()
             isLoading.value = false
         }
+    }
+
+    fun findById(id: Int): Post {
+        var postCache = dataList.value.find { it.id == id }
+
+        if(postCache === null) {
+            postCache = PostsRepository.findById(id)
+            dataList.value = dataList.value.plus(postCache)
+        }
+
+        return postCache
     }
 }
