@@ -1,5 +1,6 @@
 package com.github.limerio.final_project_kotlin.repositories
 
+import com.github.limerio.final_project_kotlin.models.Post
 import com.github.limerio.final_project_kotlin.models.User
 import com.github.limerio.final_project_kotlin.utils.Http
 import com.github.limerio.final_project_kotlin.utils.USERS_BASE_URL
@@ -16,5 +17,9 @@ object UsersRepository {
     fun findById(id: Int): User {
         val data = Http.get("$USERS_BASE_URL/$id")
         return json.decodeFromString(data)
+    }
+
+    fun findAllPosts(id: Int): List<Post> {
+        return PostsRepository.findAll().filter { it.userId == id }
     }
 }
