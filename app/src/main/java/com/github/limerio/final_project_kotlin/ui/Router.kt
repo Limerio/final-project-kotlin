@@ -1,6 +1,8 @@
 package com.github.limerio.final_project_kotlin.ui
 
 import android.annotation.SuppressLint
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -30,7 +32,17 @@ fun Router(navController: NavHostController) {
         navController = navController,
         startDestination = Routes.HomeScreen.route
     ) {
-        composable(Routes.HomeScreen.route) {
+        composable(Routes.HomeScreen.route, enterTransition = {
+            slideIntoContainer(
+                AnimatedContentTransitionScope.SlideDirection.Right,
+                tween(1000)
+            )
+        }, exitTransition = {
+            slideOutOfContainer(
+                AnimatedContentTransitionScope.SlideDirection.Left,
+                tween(1000)
+            )
+        }) {
             Scaffold(
                 bottomBar = { BottomBar(navController) },
                 modifier = Modifier.fillMaxSize()
@@ -46,18 +58,36 @@ fun Router(navController: NavHostController) {
 
         composable(
             route = Routes.UserScreen.route,
-            arguments = listOf(navArgument("id") { type = NavType.IntType })
+            arguments = listOf(navArgument("id") { type = NavType.IntType }),
+            enterTransition = {
+                slideIntoContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Left,
+                    tween(1000)
+                )
+            },
+            exitTransition = {
+                slideOutOfContainer(
+                    AnimatedContentTransitionScope.SlideDirection.Right,
+                    tween(1000)
+                )
+            }
         ) {
             val userId = it.arguments?.getInt("id") ?: return@composable
 
             val user = usersViewModel.findById(userId)
+            usersViewModel.fillAllPosts(user.id)
 
             Scaffold(
 //                topBar = { TopBar(navController) },
                 bottomBar = { BottomBar(navController) },
                 modifier = Modifier.fillMaxSize()
             ) { innerPadding ->
-                UserScreen(navController, user, modifier = Modifier.padding(innerPadding))
+                UserScreen(
+                    navController,
+                    user,
+                    usersViewModel,
+                    modifier = Modifier.padding(innerPadding)
+                )
             }
 
         }

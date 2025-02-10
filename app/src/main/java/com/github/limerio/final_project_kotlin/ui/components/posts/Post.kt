@@ -17,14 +17,16 @@ import androidx.navigation.NavController
 import com.github.limerio.final_project_kotlin.models.Post
 import com.github.limerio.final_project_kotlin.models.User
 import com.github.limerio.final_project_kotlin.ui.components.base.UserAvatar
-import com.github.limerio.final_project_kotlin.utils.Routes
 
-fun onClickUser(navController: NavController, userId: Int) {
-    navController.navigate(Routes.UserScreen.withId(userId))
-}
 
 @Composable
-fun Post(navController: NavController, data: Post, user: User, modifier: Modifier = Modifier) {
+fun Post(
+    navController: NavController,
+    data: Post,
+    user: User,
+    modifier: Modifier = Modifier,
+    onClick: (() -> Unit)?
+) {
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -35,14 +37,22 @@ fun Post(navController: NavController, data: Post, user: User, modifier: Modifie
         UserAvatar(
             id = user.id.toString(),
             username = user.username,
-            onClick = { onClickUser(navController, user.id) })
+            onClick = {
+                if (onClick != null) {
+                    onClick()
+                }
+            })
 
         Column {
             Text(
                 text = user.username,
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.clickable { onClickUser(navController, user.id) }
+                modifier = Modifier.clickable {
+                    if (onClick != null) {
+                        onClick()
+                    }
+                }
             )
             Text(
                 text = data.body,

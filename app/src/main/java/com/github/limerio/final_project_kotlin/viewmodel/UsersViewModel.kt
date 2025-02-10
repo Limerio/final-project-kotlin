@@ -2,6 +2,7 @@ package com.github.limerio.final_project_kotlin.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.github.limerio.final_project_kotlin.models.Post
 import com.github.limerio.final_project_kotlin.models.User
 import com.github.limerio.final_project_kotlin.repositories.UsersRepository
 import kotlinx.coroutines.Dispatchers
@@ -12,10 +13,11 @@ class UsersViewModel : ViewModel() {
     val dataList = MutableStateFlow(emptyList<User>())
     val isLoading = MutableStateFlow(false)
     val error = MutableStateFlow<String?>(null)
+    val userPosts = MutableStateFlow(emptyList<Post>())
 
     fun load() {
         isLoading.value = true
-        viewModelScope.launch(Dispatchers.IO){
+        viewModelScope.launch(Dispatchers.IO) {
             val newValues = UsersRepository.findAll()
             dataList.value = newValues
             isLoading.value = false
@@ -25,11 +27,20 @@ class UsersViewModel : ViewModel() {
     fun findById(userId: Int): User {
         var userCache = dataList.value.find { it.id == userId }
 
-        if(userCache === null) {
+        if (userCache === null) {
             userCache = UsersRepository.findById(userId)
             dataList.value = dataList.value.plus(userCache)
         }
 
         return userCache
+    }
+
+    fun fillAllPosts(userId: Int) {
+        isLoading.value = true
+        viewModelScope.launch(Dispatchers.IO) {
+            val newValues = UsersRepository.findAllPosts(userId)
+            userPosts.value = newValues
+            isLoading.value = false
+        }
     }
 }
