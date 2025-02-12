@@ -4,4 +4,10 @@
     <string name="create_a_post_floatting_button_description">Create a post</string>
     <string name="no_email_app_found">No email app found</string>
     <string name="no_browser_app_found">No browser app found</string>
+    <string name="share">Share</string>
+    <string name="back">Back</string>
+    <string name="create_new_post">Create a new post</string>
+    <string name="message">Message</string>
+    <string name="send">Send</string>
+    <string name="send_icon">Send icon</string>
 </resources>

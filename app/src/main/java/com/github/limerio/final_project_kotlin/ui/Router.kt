@@ -5,9 +5,13 @@ import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -16,10 +20,12 @@ import androidx.navigation.navArgument
 import com.github.limerio.final_project_kotlin.BottomBar
 import com.github.limerio.final_project_kotlin.ui.screens.HomeScreen
 import com.github.limerio.final_project_kotlin.ui.screens.UserScreen
+import com.github.limerio.final_project_kotlin.ui.screens.UserTopBar
 import com.github.limerio.final_project_kotlin.utils.Routes
 import com.github.limerio.final_project_kotlin.viewmodel.PostsViewModel
 import com.github.limerio.final_project_kotlin.viewmodel.UsersViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("ViewModelConstructorInComposable")
 @Composable
 fun Router(navController: NavHostController) {
@@ -72,18 +78,21 @@ fun Router(navController: NavHostController) {
                 )
             }
         ) {
+            val scrollBehavior =
+                TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
             val userId = it.arguments?.getInt("id") ?: return@composable
 
             val user = usersViewModel.findById(userId)
             usersViewModel.fillAllPosts(user.id)
 
             Scaffold(
-//                topBar = { TopBar(navController) },
+                topBar = { UserTopBar(navController, scrollBehavior, user) },
                 bottomBar = { BottomBar(navController) },
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
+                    .nestedScroll(scrollBehavior.nestedScrollConnection),
             ) { innerPadding ->
                 UserScreen(
-                    navController,
                     user,
                     usersViewModel,
                     modifier = Modifier.padding(innerPadding)

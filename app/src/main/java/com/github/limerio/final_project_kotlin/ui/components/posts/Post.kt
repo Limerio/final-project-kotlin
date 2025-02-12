@@ -13,7 +13,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.github.limerio.final_project_kotlin.models.Post
 import com.github.limerio.final_project_kotlin.models.User
 import com.github.limerio.final_project_kotlin.ui.components.base.UserAvatar
@@ -21,7 +20,6 @@ import com.github.limerio.final_project_kotlin.ui.components.base.UserAvatar
 
 @Composable
 fun Post(
-    navController: NavController,
     data: Post,
     user: User,
     modifier: Modifier = Modifier,
